@@ -8,5 +8,15 @@
                   stdlib
                  ]},
   {mod, { shootingserver_app, []}},
-  {env, []}
+  {env, [
+    {lager, [
+      {handlers, [
+        {lager_console_backend, debug},
+          {lager_file_backend, [
+            {"log/error.log", error, 1048760, "$D05", 5},
+            {"log/console.log", debug, 1048760, "$D05", 5}
+          ]}
+      ]}
+    ]}
+  ]}
  ]}.
