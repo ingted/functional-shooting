@@ -60,7 +60,7 @@ module ShootingGame =
     [<JavaScript>]
     let initSocket context =
 
-      let socket = WebSocket("ws://192.168.37.131:19860/player")
+      let socket = WebSocket("ws://192.168.37.131:19860/shooting")
     
       socket.Onopen <- (fun () ->
         init |> Json.Stringify |> socket.Send

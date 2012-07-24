@@ -7,7 +7,7 @@ start() ->
     ok = application:start(jiffy),
     Dispatch = [
         {'_', [
-            {[<<"player">>], player_handler, []}
+            {[<<"shooting">>], shooting_handler, []}
         ]}
     ],
     cowboy:start_http(shooting_listener, 100, [{port, 19860}],

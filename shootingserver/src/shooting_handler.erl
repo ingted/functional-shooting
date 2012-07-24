@@ -1,4 +1,4 @@
--module(player_handler).
+-module(shooting_handler).
 -behaviour(cowboy_http_handler).
 -behaviour(cowboy_websocket_handler).
 -export([init/3, handle/2, terminate/2]).
