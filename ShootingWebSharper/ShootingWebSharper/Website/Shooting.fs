@@ -29,29 +29,38 @@ module ShootingGame =
     context.FillStyle <- "rgb(0, 0, 0)"
     context.Fill()
 
-  [<JavaScript>]
-  let drawPlayerShip (context : CanvasRenderingContext2D) playerShip =
-    context.Save()
-    context.BeginPath()
-    context.Translate(playerShip.x, playerShip.y)
-    context.MoveTo(0., -10.)
-    context.LineTo(-10., 10.)
-    context.LineTo(10., 10.)
-    context.FillStyle <- "rgb(64, 64, 255)"
-    context.Fill()
-    context.Restore()
+  module PlayerShip =
 
-  [<JavaScript>]
-  let movePlayerShip (offset : Position) _ (point : Events.MouseEvent) =
-    let x = float (point.X - offset.Left)
-    let y = float (point.Y - offset.Top)
-    { x = x; y = y }
+    [<JavaScript>]
+    let init = { x = (float width) / 2.; y = (float height) / 3. * 2. }
+
+    [<JavaScript>]
+    let nextPosition (offset : Position) x y =
+      let nextX = float (x - offset.Left)
+      let nextY = float (y - offset.Top)
+      { x = nextX; y = nextY }
+
+    [<JavaScript>]
+    let draw (context : CanvasRenderingContext2D) playerShip =
+      context.Save()
+      context.BeginPath()
+      context.Translate(playerShip.x, playerShip.y)
+      context.MoveTo(0., -10.)
+      context.LineTo(-10., 10.)
+      context.LineTo(10., 10.)
+      context.FillStyle <- "rgb(64, 64, 255)"
+      context.Fill()
+      context.Restore()
+
+    [<JavaScript>]
+    let move offset x y playerShip =
+      playerShip := nextPosition offset x y
 
   [<JavaScript>]
   let rec internal gameLoop context playerShip =
     async {
       do drawBackground context
-      do drawPlayerShip context !playerShip
+      do !playerShip |> PlayerShip.draw context
       do! Async.Sleep (1000 / fps)
       do! gameLoop context playerShip
     }
@@ -59,7 +68,7 @@ module ShootingGame =
   [<JavaScript>]
   let animatedCanvas width height =
 
-    let playerShip = ref { x = (float width) / 2.; y = (float height) / 3. * 2. }
+    let playerShip = ref PlayerShip.init
 
     // キャンバスの設定
     let element = Tags.NewTag "Canvas" []
@@ -74,9 +83,9 @@ module ShootingGame =
     Div [ Width (string width); Attr.Style "float:left" ] -< [
       Div [ Attr.Style "float:center" ] -< [
         element
-        |>! OnMouseMove (fun e arg ->
+        |>! OnMouseMove (fun _ arg ->
           let offset = JQuery.JQuery.Of(element.Dom).Offset()
-          playerShip := movePlayerShip offset e arg
+          playerShip |> PlayerShip.move offset arg.X arg.Y
         )
       ]
     ]
