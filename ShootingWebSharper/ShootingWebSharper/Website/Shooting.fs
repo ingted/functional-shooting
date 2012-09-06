@@ -8,7 +8,7 @@ open IntelliFactory.WebSharper.JQuery
 
 module ShootingGame =
 
-  type PlayerShip = {
+  type Mover = {
     x : float
     y : float
   }
