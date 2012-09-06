@@ -23,23 +23,23 @@ module ShootingGame =
   let fps = 60
 
   [<JavaScript>]
-  let drawBackground (ctx : CanvasRenderingContext2D) =
-    ctx.BeginPath()
-    ctx.Rect(0., 0., float width, float height)
-    ctx.FillStyle <- "rgb(0, 0, 0)"
-    ctx.Fill()
+  let drawBackground (context : CanvasRenderingContext2D) =
+    context.BeginPath()
+    context.Rect(0., 0., float width, float height)
+    context.FillStyle <- "rgb(0, 0, 0)"
+    context.Fill()
 
   [<JavaScript>]
-  let drawPlayerShip (ctx : CanvasRenderingContext2D) playerShip =
-    ctx.Save()
-    ctx.BeginPath()
-    ctx.Translate(playerShip.x, playerShip.y)
-    ctx.MoveTo(0., -10.)
-    ctx.LineTo(-10., 10.)
-    ctx.LineTo(10., 10.)
-    ctx.FillStyle <- "rgb(64, 64, 255)"
-    ctx.Fill()
-    ctx.Restore()
+  let drawPlayerShip (context : CanvasRenderingContext2D) playerShip =
+    context.Save()
+    context.BeginPath()
+    context.Translate(playerShip.x, playerShip.y)
+    context.MoveTo(0., -10.)
+    context.LineTo(-10., 10.)
+    context.LineTo(10., 10.)
+    context.FillStyle <- "rgb(64, 64, 255)"
+    context.Fill()
+    context.Restore()
 
   [<JavaScript>]
   let movePlayerShip (offset : Position) _ (point : Events.MouseEvent) =
