@@ -14,10 +14,10 @@ module ShootingGame =
   }
 
   [<JavaScript>]
-  let width = 300
+  let width = 400
 
   [<JavaScript>]
-  let height = 300
+  let height = 600
 
   [<JavaScript>]
   let fps = 60
@@ -59,7 +59,7 @@ module ShootingGame =
   [<JavaScript>]
   let animatedCanvas width height =
 
-    let playerShip = ref { x = 0.; y = 0. }
+    let playerShip = ref { x = (float width) / 2.; y = (float height) / 3. * 2. }
 
     // キャンバスの設定
     let element = Tags.NewTag "Canvas" []
