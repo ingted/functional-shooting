@@ -48,6 +48,15 @@ module ShootingGame =
     { x = x; y = y }
 
   [<JavaScript>]
+  let rec internal gameLoop context playerShip =
+    async {
+      do drawBackground context
+      do drawPlayerShip context !playerShip
+      do! Async.Sleep (1000 / fps)
+      do! gameLoop context playerShip
+    }
+
+  [<JavaScript>]
   let animatedCanvas width height =
 
     let playerShip = ref { x = 0.; y = 0. }
@@ -57,17 +66,10 @@ module ShootingGame =
     let canvas  = As<CanvasElement> element.Dom
     canvas.Width  <- width
     canvas.Height <- height
-    let ctx = canvas.GetContext "2d"
+    let context = canvas.GetContext "2d"
 
-    // ゲームループ
-    let rec loop =
-      async {
-        do drawBackground ctx
-        do drawPlayerShip ctx !playerShip
-        do! Async.Sleep (1000 / fps)
-        do! loop
-      }
-    Async.Start loop
+    // ゲームループ開始
+    Async.Start (gameLoop context playerShip)
 
     Div [ Width (string width); Attr.Style "float:left" ] -< [
       Div [ Attr.Style "float:center" ] -< [
