@@ -42,11 +42,10 @@ module ShootingGame =
     ctx.Restore()
 
   [<JavaScript>]
-  let movePlayerShip (element : Element) playerShip _ (point : Events.MouseEvent) =
-    let offset = JQuery.JQuery.Of(element.Dom).Offset()
+  let movePlayerShip (offset : Position) _ (point : Events.MouseEvent) =
     let x = float (point.X - offset.Left)
     let y = float (point.Y - offset.Top)
-    playerShip := { x = x; y = y }
+    { x = x; y = y }
 
   [<JavaScript>]
   let animatedCanvas width height =
@@ -73,7 +72,10 @@ module ShootingGame =
     Div [ Width (string width); Attr.Style "float:left" ] -< [
       Div [ Attr.Style "float:center" ] -< [
         element
-        |>! OnMouseMove (movePlayerShip element playerShip)
+        |>! OnMouseMove (fun e arg ->
+          let offset = JQuery.JQuery.Of(element.Dom).Offset()
+          playerShip := movePlayerShip offset e arg
+        )
       ]
     ]
 
