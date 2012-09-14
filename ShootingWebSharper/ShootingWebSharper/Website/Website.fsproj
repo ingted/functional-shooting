@@ -36,15 +36,6 @@
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
-    <Reference Include="MsgPack">
-      <HintPath>..\..\packages\net40-client\MsgPack.dll</HintPath>
-    </Reference>
-    <Reference Include="MsgPack.Rpc">
-      <HintPath>..\..\packages\net40-client\MsgPack.Rpc.dll</HintPath>
-    </Reference>
-    <Reference Include="MsgPack.Rpc.Client">
-      <HintPath>..\..\packages\net40-client\MsgPack.Rpc.Client.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
