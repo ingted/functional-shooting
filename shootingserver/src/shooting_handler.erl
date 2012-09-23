@@ -27,9 +27,9 @@ websocket_init(_Any, Req, _Opts) ->
 websocket_handle({text, Msg}, Req, {PlayerShip, Bullets}) ->
     case of_json(Msg) of
         {player, X, Y} ->
-	    {ok, Req, {{X, Y}, Bullets}};
+	    {ok, Req, {{X, Y}, Bullets}, hibernate};
         _Other ->
-	    {ok, Req, {PlayerShip, Bullets}}
+	    {ok, Req, {PlayerShip, Bullets}, hibernate}
     end;
 websocket_handle(_Any, Req, State) ->
     {ok, Req, State}.
