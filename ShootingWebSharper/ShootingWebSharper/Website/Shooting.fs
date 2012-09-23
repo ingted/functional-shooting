@@ -76,10 +76,6 @@ module ShootingGame =
       context.Fill()
       context.Restore()
 
-    [<JavaScript>]
-    let move offset x y playerShip =
-      playerShip := nextPosition offset x y
-
   [<JavaScript>]
   let initSocket context =
 
