@@ -13,6 +13,11 @@ module ShootingGame =
     y : float
   }
 
+  type Info = {
+    playerShip : Mover
+    bullets : Mover list
+  }
+
   [<JavaScript>]
   let width = 400
 
@@ -29,6 +34,24 @@ module ShootingGame =
     context.Rect(0., 0., float width, float height)
     context.FillStyle <- "rgb(0, 0, 0)"
     context.Fill()
+
+  module PlayerBullet =
+
+    [<JavaScript>]
+    let draw (context : CanvasRenderingContext2D) bullets =
+      bullets
+      |> List.iter(fun bullet ->
+        context.Save()
+        context.BeginPath()
+        context.Translate(bullet.x, bullet.y)
+        context.MoveTo(0., -4.)
+        context.LineTo(0., 4.)
+        context.StrokeStyle <- "rgb(255, 0, 0)"
+        context.LineWidth <- 4.0
+        context.LineCap <- LineCap.Round
+        context.Stroke()
+        context.Restore()
+      )
 
   module PlayerShip =
 
@@ -57,23 +80,26 @@ module ShootingGame =
     let move offset x y playerShip =
       playerShip := nextPosition offset x y
 
-    [<JavaScript>]
-    let initSocket context =
+  [<JavaScript>]
+  let initSocket context =
 
-      let socket = WebSocket("ws://192.168.37.131:19860/shooting")
+    let socket = WebSocket("ws://192.168.37.131:19860/shooting")
+   
+    socket.Onopen <- (fun () ->
+      PlayerShip.init |> Json.Stringify |> socket.Send
+    )
     
-      socket.Onopen <- (fun () ->
-        init |> Json.Stringify |> socket.Send
+    socket.Onmessage <- (fun msg ->
+      drawBackground context
+      msg.Data
+      |> (string >> Json.Parse >> As<Info>) 
+      |> (fun info ->
+        info.playerShip |> PlayerShip.draw context
+        info.bullets |> PlayerBullet.draw context
       )
-    
-      socket.Onmessage <- (fun msg ->
-        drawBackground context
-        msg.Data
-        |> (string >> Json.Parse >> As<Mover>) 
-        |> draw context
-      )
+    )
 
-      socket
+    socket
 
   [<JavaScript>]
   let animatedCanvas width height =
@@ -86,7 +112,7 @@ module ShootingGame =
     let context = canvas.GetContext "2d"
     
     // ソケットの準備
-    let playerShipSocket = PlayerShip.initSocket context
+    let socket = initSocket context
 
     Div [ Width (string width); Attr.Style "float:left" ] -< [
       Div [ Attr.Style "float:center" ] -< [
@@ -96,7 +122,7 @@ module ShootingGame =
           (arg.X, arg.Y)
           ||> PlayerShip.nextPosition offset
           |> Json.Stringify
-          |> playerShipSocket.Send
+          |> socket.Send
         )
       ]
     ]
