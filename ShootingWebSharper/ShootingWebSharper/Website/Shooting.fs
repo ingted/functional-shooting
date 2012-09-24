@@ -25,9 +25,6 @@ module ShootingGame =
   let height = 600
 
   [<JavaScript>]
-  let fps = 60
-
-  [<JavaScript>]
   let drawBackground (context : CanvasRenderingContext2D) =
     context.BeginPath()
     context.ClearRect(0., 0., float width, float height)
