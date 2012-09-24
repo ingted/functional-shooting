@@ -76,6 +76,11 @@ module ShootingGame =
   [<JavaScript>]
   let initSocket context =
 
+    let (|Text|Binary|) (data:obj) =
+      match data with
+      | :? string as text -> Text text
+      | binary -> Binary (As<ArrayBuffer> binary)
+
     let socket = WebSocket("ws://192.168.37.131:19860/shooting")
    
     socket.Onopen <- (fun () ->
@@ -84,12 +89,15 @@ module ShootingGame =
     
     socket.Onmessage <- (fun msg ->
       drawBackground context
-      msg.Data
-      |> (string >> Json.Parse >> As<Info>) 
-      |> (fun info ->
-        info.playerShip |> PlayerShip.draw context
-        info.bullets |> PlayerBullet.draw context
-      )
+      match msg.Data with
+      | Text text ->
+        text
+        |> (Json.Parse >> As<Info>)
+        |> (fun info ->
+          info.playerShip |> PlayerShip.draw context
+          info.bullets |> PlayerBullet.draw context
+        )
+      | Binary _ -> ()
     )
 
     socket
