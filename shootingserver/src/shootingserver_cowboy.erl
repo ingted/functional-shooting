@@ -17,7 +17,7 @@ start() ->
             {[<<"shooting">>], shooting_handler, []}
         ]}
     ],
-    cowboy:start_http(shooting_listener, 100, [{port, 19860}],
+    cowboy:start_http(shooting_listener, 100, [{port, 19680}],
         [{dispatch, Dispatch}]
     ),
     ok.
