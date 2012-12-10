@@ -2,12 +2,12 @@
 -export([start/0]).
 
 start() ->
-    application:start(compiler),
-    application:start(syntax_tools),
-    {ok, [{handlers, LConfig}]} = application:get_env(shootingserver, lager),
-    application:load(lager),
-    application:set_env(lager,handlers, LConfig),
-    application:start(lager),
+    %%application:start(compiler),
+    %%application:start(syntax_tools),
+    %%{ok, [{handlers, LConfig}]} = application:get_env(shootingserver, lager),
+    %%application:load(lager),
+    %%application:set_env(lager,handlers, LConfig),
+    %%application:start(lager),
 
     application:start(ranch),
     application:start(cowboy),
