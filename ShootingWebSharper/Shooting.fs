@@ -1,10 +1,10 @@
 ﻿namespace ShootingWebSharper
 
 open System.Net
-open IntelliFactory.WebSharper
-open IntelliFactory.WebSharper.Html
-open IntelliFactory.WebSharper.Html5
-open IntelliFactory.WebSharper.JQuery
+open WebSharper
+open WebSharper.Html.Client
+open WebSharper.JavaScript
+open WebSharper.JQuery
 
 module ShootingGame =
 
@@ -136,4 +136,4 @@ module ShootingGame =
 type ShootingGameViewer() =
   inherit Web.Control()
   [<JavaScript>]
-  override this.Body = ShootingGame.Main () :> _
+  override __.Body = ShootingGame.Main () :> _

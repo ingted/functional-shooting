@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ShootingWebSharper", "ShootingWebSharper\ShootingWebSharper.fsproj", "{F2AA4F1E-3520-4AD0-AF43-27ED999B4317}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F2AA4F1E-3520-4AD0-AF43-27ED999B4317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2AA4F1E-3520-4AD0-AF43-27ED999B4317}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2AA4F1E-3520-4AD0-AF43-27ED999B4317}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2AA4F1E-3520-4AD0-AF43-27ED999B4317}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
